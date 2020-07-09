@@ -39,11 +39,36 @@ return (
                         <FormGroup row>
                             <Col>
                             <Input
-                            placeholder="Image URL"
+                            placeholder="User ID"
                             onChange={(event)=> setUserProfileId(event.target.value)}
                             />
                             </Col>
+
+                            <Col>
+                            <Input
+                            placeholder="Image Url"
+                            onChange={(event)=> setImageUrl(event.target.value)}
+                            />
+                            </Col>
                         </FormGroup>
+
+                        <FormGroup row>
+                            <Col>
+                            <Input
+                            placeholder="Title"
+                            onChange={(event)=> setTitle(event.target.value)}
+                            />
+                            </Col>
+
+                            <Col>
+                            <Input
+                            placeholder="Caption"
+                            onChange={(event)=> setCaption(event.target.value)}
+                            />
+                            </Col>
+                            </FormGroup>
+
+                            <Button type="submit" className="btn-block-info"> Submit</Button>
                     </Form>
 
                 </CardBody>
@@ -57,3 +82,5 @@ return (
 </div>
 );
 };
+
+export default PostForm;
