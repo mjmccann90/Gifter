@@ -9,6 +9,7 @@ namespace Gifter.Repositories
     public class PostRepository
     {
         private readonly ApplicationDbContext _context;
+        private object p;
 
         public PostRepository(ApplicationDbContext context)
         {
@@ -58,15 +59,15 @@ namespace Gifter.Repositories
             _context.SaveChanges();
         }
 
-        public List<Post> Search(string criterion, bool sortDescending)
-        {
-            var query = _context.Post
-                                .Include(p => p.UserProfile)
-                                .Where(p => p.Title.Contains(criterion));
+        //public List<Post> Search(string criterion, bool sortDescending)
+        //{
+        //    var query = _context.Post
+        //                        .Include(p => p.UserProfile)
+        //                        .Where(p => p.Title.Contains(criterion)) || p.Caption.Contains(criterion);
 
-            return sortDescending
-                ? query.OrderByDescending(p => p.DateCreated).ToList()
-                : query.OrderBy(p => p.DateCreated).ToList();
-        }
+        //    return sortDescending
+        //        ? query.OrderByDescending(p => p.DateCreated).ToList()
+        //        : query.OrderBy(p => p.DateCreated).ToList();
+        //}
     }
 }
