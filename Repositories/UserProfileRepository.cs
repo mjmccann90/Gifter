@@ -8,48 +8,36 @@ using System.Threading.Tasks;
 
 namespace Gifter.Repositories
 {
-    public class CommentRepository
+    public class UserProfileRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CommentRepository(ApplicationDbContext context)
+        public UserProfileRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Comment GetById(int id)
+        public UserProfile GetById(int id)
         {
-            return _context.Comment.FirstOrDefault(c => c.Id == id);
+            return _context.UserProfile.FirstOrDefault(uP=> uP.Id == id);
         }
 
-        public List<Comment> GetAll()
+        public void Add(UserProfile userPro)
         {
-            return _context.Comment
-                .Where(c => c.PostId == postId)
-                .ToList();
-        }
-
-        public void Add(Comment comment)
-        {
-            _context.Add(comment);
+            _context.Add(userPro);
             _context.SaveChanges();
         }
 
-        public void Update(Comment comment)
+        public void Update(UserProfile comment)
         {
             _context.Entry(comment).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
-        internal object GetByPostId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Delete(int id)
         {
             var comment = GetById(id);
-            _context.Comment.Remove(comment);
+            _context.UserProfile.Remove(comment);
             _context.SaveChanges();
         }
     }

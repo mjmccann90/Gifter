@@ -24,6 +24,7 @@ const submit = (event) => {
     
     addPost(post).then(getAllPosts);
 };
+
 return (
 <div className="container mt-4">
     <div className="row justify-content-center">
