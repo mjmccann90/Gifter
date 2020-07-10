@@ -22,7 +22,7 @@ namespace Gifter.Repositories
             return _context.Comment.FirstOrDefault(c => c.Id == id);
         }
 
-        public List<Comment> GetAll()
+        public List<Comment> GetByPostId (int postId)
         {
             return _context.Comment
                 .Where(c => c.PostId == postId)
@@ -39,11 +39,6 @@ namespace Gifter.Repositories
         {
             _context.Entry(comment).State = EntityState.Modified;
             _context.SaveChanges();
-        }
-
-        internal object GetByPostId(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public void Delete(int id)

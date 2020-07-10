@@ -28,23 +28,47 @@ namespace Gifter.Controllers
             return Ok(userProfile);
         }
 
-        [HttpPost]
-        public IActionResult Post(Post userProfile)
+        private IActionResult NotFound()
         {
-            _userProfileRepository.Add(userProfile);
-            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
+            throw new NotImplementedException();
+        }
+
+        private IActionResult Ok(UserProfile userProfile)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile user)
+        {
+            _userProfileRepository.Add(user);
+            return CreatedAtAction("Get", new { id = user.Id }, user);
+        }
+        private IActionResult CreatedAtAction(string v, object p, UserProfile user)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Post userProfile)
+        public IActionResult Put(int id, UserProfile user)
         {
-            if (id != userProfile.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _userProfileRepository.Update(userProfile);
+            _userProfileRepository.Update(user);
             return NoContent();
+        }
+
+        private IActionResult NoContent()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IActionResult BadRequest()
+        {
+            throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]
