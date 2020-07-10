@@ -1,9 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { PostContext } from "../providers/PostProvider";
 import Post from "./Post";
+import { Input } from "reactstrap";
+import debounce from "lodash/debounce";
 
 const PostList = () => {
-  const { posts, getAllPosts } = useContext(PostContext);
+  const { posts, getAllPosts, searchPosts } = useContext(PostContext);
+
+  const search = (q) => {
+    searchPosts(q);
+  };
+
+  const handler = useMemo(() => debounce,(search, 300), []);
+
 
   useEffect(() => {
     getAllPosts();
@@ -13,6 +22,12 @@ const PostList = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
+          <div className="p-4">
+            <Input
+            bsSize="lg"
+            placeholder="Search all posts"
+            />
+          </div>
           {posts.map((post) => (
             <Post key={post.id} post={post} />
           ))}
