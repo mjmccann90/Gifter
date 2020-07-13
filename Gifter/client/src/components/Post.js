@@ -24,7 +24,7 @@ const Post = ({ post }) => {
         <p>{post.caption}</p>
       </CardBody>
 
-      <ListGroup flush>
+      <ListGroup >
           {post.comments.map((c) => (
               <ListGroupItem key={c.id} tag="p">
                 {c.message}

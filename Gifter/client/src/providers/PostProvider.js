@@ -23,27 +23,27 @@ export const PostProvider = (props) => {
     });
   };
 
-  const getPost = (id) => {
-    return fetch(`/api/post/${id}`).then((res) => res.json())
-  };
+  // const getPost = (id) => {
+  //   return fetch(`/api/post/${id}`).then((res) => res.json())
+  // };
 
-  const getPostByUser = (id) => {
-    return fetch(`/api/post/getpostbyuser/${id}`).then((res) => res.json())
+  // const getPostByUser = (id) => {
+  //   return fetch(`/api/post/getpostbyuser/${id}`).then((res) => res.json())
+  //   .then(setUserPosts);
+  // };
+
+  const searchPost = (searchTerm) => {
+    if (!searchTerm) {
+      getAllPosts()
+        return
+    }
+    return fetch(`/api/post/search?q=${searchTerm}&sortDesc=True`)
+    .then((res) => res.json())
     .then(setUserPosts);
   };
 
-  // const searchPost = (post) => {
-  //   return fetch("/api/post", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(post),
-  //   });
-  // };
-
   return (
-    <PostContext.Provider value={{ posts,getPost, getAllPosts, addPost,getPostByUser,setPosts,userPosts }}>
+    <PostContext.Provider value={{ posts, getAllPosts, addPost,searchPost,userPosts }}>
       {props.children}
     </PostContext.Provider>
   );
