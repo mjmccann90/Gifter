@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Gifter.Data;
 using Gifter.Models;
+using System;
 
 namespace Gifter.Repositories
 {
     public class PostRepository
     {
         private readonly ApplicationDbContext _context;
-        private object p;
 
         public PostRepository(ApplicationDbContext context)
         {
@@ -29,13 +29,14 @@ namespace Gifter.Repositories
         {
             return _context.Post
                 .Include(p => p.UserProfile)
-                .Include(p => p.Comments)
+                .Include(c => c.Comments)
                 .FirstOrDefault(p => p.Id == id);
         }
         public List<Post> Search(string criterion, bool sortDescending)
         {
             var query = _context.Post
                                 .Include(p => p.UserProfile)
+                                .Include(c => c.Comments)
                                .Where(p => p.Title.Contains(criterion) || p.Caption.Contains(criterion));
 
             return sortDescending
@@ -46,6 +47,7 @@ namespace Gifter.Repositories
         public List<Post> GetByUserProfileId(int id)
         {
             return _context.Post.Include(p => p.UserProfile)
+                            .Include(c => c.Comments)
                             .Where(p => p.UserProfileId == id)
                             .OrderBy(p => p.Title)
                             .ToList();
@@ -53,6 +55,7 @@ namespace Gifter.Repositories
 
         public void Add(Post post)
         {
+            post.DateCreated = DateTime.Now;
             _context.Add(post);
             _context.SaveChanges();
         }

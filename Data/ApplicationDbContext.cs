@@ -5,6 +5,8 @@ namespace Gifter.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        internal object comment;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<UserProfile> UserProfile { get; set; }

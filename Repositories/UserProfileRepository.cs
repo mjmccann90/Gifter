@@ -22,23 +22,30 @@ namespace Gifter.Repositories
             return _context.UserProfile.FirstOrDefault(uP=> uP.Id == id);
         }
 
+        public List<UserProfile> GetAll()
+        {
+            return _context.UserProfile.ToList();
+        }
+
         public void Add(UserProfile userPro)
         {
             _context.Add(userPro);
             _context.SaveChanges();
         }
 
-        public void Update(UserProfile comment)
+        public void Update(UserProfile userProfile)
         {
-            _context.Entry(comment).State = EntityState.Modified;
+            _context.Entry(userProfile).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var comment = GetById(id);
-            _context.UserProfile.Remove(comment);
+            var userProfile = GetById(id);
+            _context.UserProfile.Remove(userProfile);
             _context.SaveChanges();
         }
+
+        
     }
 }

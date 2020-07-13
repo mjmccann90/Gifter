@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace Gifter.Controllers
 {
-    public class UserProfileController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserProfileController : ControllerBase
     {
         private readonly UserProfileRepository _userProfileRepository;
         public UserProfileController(ApplicationDbContext context)
@@ -28,47 +30,30 @@ namespace Gifter.Controllers
             return Ok(userProfile);
         }
 
-        private IActionResult NotFound()
+        [HttpGet]
+        public IActionResult Get()
         {
-            throw new NotImplementedException();
-        }
-
-        private IActionResult Ok(UserProfile userProfile)
-        {
-            throw new NotImplementedException();
+            return Ok(_userProfileRepository.GetAll());
         }
 
         [HttpPost]
-        public IActionResult Post(UserProfile user)
+        public IActionResult Post(UserProfile userProfile)
         {
-            _userProfileRepository.Add(user);
-            return CreatedAtAction("Get", new { id = user.Id }, user);
+            _userProfileRepository.Add(userProfile);
+            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile); ;
         }
-        private IActionResult CreatedAtAction(string v, object p, UserProfile user)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UserProfile user)
+        public IActionResult Put(int id, UserProfile userProfile)
         {
-            if (id != user.Id)
+            if (id != userProfile.Id)
             {
                 return BadRequest();
             }
 
-            _userProfileRepository.Update(user);
+            _userProfileRepository.Update(userProfile);
             return NoContent();
-        }
-
-        private IActionResult NoContent()
-        {
-            throw new NotImplementedException();
-        }
-
-        private IActionResult BadRequest()
-        {
-            throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]

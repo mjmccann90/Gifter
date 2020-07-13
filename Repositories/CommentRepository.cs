@@ -21,11 +21,15 @@ namespace Gifter.Repositories
         {
             return _context.Comment.FirstOrDefault(c => c.Id == id);
         }
+        public List <Comment> GetAll()
+        {
+            return _context.Comment.ToList();
+        }
 
-        public List<Comment> GetByPostId (int postId)
+        public List<Comment> GetByPostId (int Id)
         {
             return _context.Comment
-                .Where(c => c.PostId == postId)
+                .Where(c => c.PostId == Id)
                 .ToList();
         }
 
