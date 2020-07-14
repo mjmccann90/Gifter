@@ -4,14 +4,14 @@ import Post from "./Post";
 import { Input } from "reactstrap";
 
 const PostList = () => {
-  const { posts, getAllPosts, searchPosts } = useContext(PostContext);
+  const { posts, getAllPost, searchPost } = useContext(PostContext);
 
-  const search = (q) => {
-    searchPosts(q);
+  const search = (searchTerm) => {
+    searchPost(searchTerm);
   };
 
   useEffect(() => {
-    getAllPosts();
+    getAllPost();
   }, []);
 
   return (
@@ -20,8 +20,9 @@ const PostList = () => {
         <div className="cards-column">
           <div className="p-4">
             <Input
-            bsSize="lg"
-            placeholder="Search all posts"
+                bsSize="lg"
+                placeholder="Search all posts"
+                onChange={(event)=> searchPost(event.target.value)}
             />
           </div>
           {posts.map((post) => (

@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 
 export const PostContext = React.createContext();
 
 export const PostProvider = (props) => {
   const [posts, setPosts] = useState([]);
-  const [userPosts, setUserPosts] = useState([]);
 
-  const getAllPosts = () => {
+  const getAllPost = () => {
     // "/api/post allows you to make relative fetch calls from the proxy in package.json"
     return fetch("/api/post")
       .then((res) => res.json())
@@ -34,16 +33,15 @@ export const PostProvider = (props) => {
 
   const searchPost = (searchTerm) => {
     if (!searchTerm) {
-      getAllPosts()
-        return
+        return getAllPost()
     }
-    return fetch(`/api/post/search?q=${searchTerm}&sortDesc=True`)
+    return fetch(`/api/post/search?searchTerm=${searchTerm}&sortDesc=True`)
     .then((res) => res.json())
-    .then(setUserPosts);
+    .then(setPosts);
   };
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, addPost,searchPost,userPosts }}>
+    <PostContext.Provider value={{ posts, getAllPost, addPost,searchPost }}>
       {props.children}
     </PostContext.Provider>
   );
