@@ -15,7 +15,8 @@ const Post = ({ post }) => {
         </p>
         <p>{post.caption}</p>
         <strong>COMMENTS</strong>
-        {post.comments.map(comment => <p>{comment.message}</p>)}
+        {post.comments !== null 
+        ?post.comments.map(comment => <p>{comment.message}</p>):""}
       </CardBody>
     </Card>
   );
