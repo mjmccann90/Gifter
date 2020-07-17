@@ -2,6 +2,8 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import PostList from "./PostList";
 import PostForm from "./PostForm";
+import PostDetails from "./PostDetails";
+import Search from "./Search";
 
 const ApplicationViews = () => {
   return (
@@ -11,6 +13,7 @@ const ApplicationViews = () => {
         {/* path takes the user to the view */}
         {/* The exact attribute specifies that we only want to render this component then the url is exactly */}
       <Route path="/" exact>
+        <Search />
         <PostList />
       </Route>
 
@@ -20,7 +23,9 @@ const ApplicationViews = () => {
 
             {/* The third route here is an example of a path with a route param: /posts/:id. 
                 Using the colon, we can tell the react router that this will be some id parameter. */}
-      <Route path="/posts/:id">{/* TODO: Post Details Component */}</Route>
+      <Route path="/posts/:id">
+         <PostDetails />
+      </Route>
     </Switch>
   );
 };

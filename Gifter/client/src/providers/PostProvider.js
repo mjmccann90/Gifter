@@ -19,12 +19,13 @@ export const PostProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post),
-    });
+    })
+    .then(getAllPosts);
   };
 
-  // const getPost = (id) => {
-  //   return fetch(`/api/post/${id}`).then((res) => res.json())
-  // };
+  const getPost = (id) => {
+    return fetch(`/api/post/${id}`).then((res) => res.json())
+  };
 
   // const getPostByUser = (id) => {
   //   return fetch(`/api/post/getpostbyuser/${id}`).then((res) => res.json())

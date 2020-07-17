@@ -1,80 +1,101 @@
-import React, { useState, useContext } from "react";
-import {
-  Form,
-  FormGroup,
-  Card,
-  CardBody,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
-import { PostContext } from "../providers/PostProvider";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useRef } from "react"
+import { useHistory} from "react-router-dom"
+import { PostContext } from "../providers/PostProvider"
+import { Form } from "reactstrap"
 
-const PostForm = () => {
-  const { addPost } = useContext(PostContext);
-  const [userProfileId, setUserProfileId] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [title, setTitle] = useState("");
-  const [caption, setCaption] = useState("");
 
-  // Use this hook to allow us to programatically redirect users
-  const history = useHistory();
+export default props => {
+    const { addPost } = useContext(PostContext)
+    const history = useHistory();
 
-  const submit = (e) => {
-    const post = {
-      imageUrl,
-      title,
-      caption,
-      userProfileId: +userProfileId,
-    };
+    const title = useRef("title")
+    const image = useRef("image")
+    const userId = useRef("userId")
+    const caption = useRef("caption")
+    const form = useRef("form")
 
-    addPost(post).then((p) => {
-      // Navigate the user back to the home route
-      history.push("/");
-    });
-  };
+    const constructNewPost = () => {
+        const newPostObject = {
+            title: title.current.value,
+            imageUrl: image.current.value,
+            dateCreated: new Date(),
+            userProfileId: parseInt(userId.current.value),
+            caption: caption.current.value
+        }
+        console.log(newPostObject)
+       return addPost(newPostObject)
+    }
 
-  return (
-    <div className="container pt-4">
-      <div className="row justify-content-center">
-        <Card className="col-sm-12 col-lg-6">
-          <CardBody>
-            <Form>
-              <FormGroup>
-                <Label for="userId">User Id (For Now...)</Label>
-                <Input
-                  id="userId"
-                  onChange={(e) => setUserProfileId(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="imageUrl">Gif URL</Label>
-                <Input
-                  id="imageUrl"
-                  onChange={(e) => setImageUrl(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="title">Title</Label>
-                <Input id="title" onChange={(e) => setTitle(e.target.value)} />
-              </FormGroup>
-              <FormGroup>
-                <Label for="caption">Caption</Label>
-                <Input
-                  id="caption"
-                  onChange={(e) => setCaption(e.target.value)}
-                />
-              </FormGroup>
-            </Form>
-            <Button color="info" onClick={submit}>
-              SUBMIT
-            </Button>
-          </CardBody>
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-export default PostForm;
+    return (
+        <form className="postForm" ref={form}>
+            <h2 className="postForm__title">New Post</h2>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="postTame">Post title: </label>
+                    <input
+                        type="text"
+                        id="postTame"
+                        ref={title}
+                        required
+                        autoFocus
+                        className="form-control"
+                        placeholder="Post title"
+                    />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="postImage">Image Url: </label>
+                    <input
+                        type="text"
+                        id="postImage"
+                        ref={image}
+                        required
+                        autoFocus
+                        className="form-control"
+                        placeholder="Image url"
+                    />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="userProfileId">UserId: </label>
+                    <input
+                        type="integer"
+                        id="userProfileId"
+                        ref={userId}
+                        required
+                        autoFocus
+                        className="form-control"
+                        placeholder="User id"
+                    />
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="caption">Caption: </label>
+                    <input
+                        type="text"
+                        id="caption"
+                        ref={caption}
+                        required
+                        autoFocus
+                        className="form-control"
+                        placeholder="User id"
+                    />
+                </div>
+            </fieldset>
+            <button type="submit"
+                onClick={
+                    evt => {
+                        evt.preventDefault() // Prevent browser from submitting the form
+                        constructNewPost()
+                        .then(() => history.push("/"))
+                    }
+                }
+                className="btn btn-primary">
+                Save Post
+            </button>
+        </form>
+    )
+}
