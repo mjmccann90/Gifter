@@ -17,15 +17,22 @@ namespace Gifter.Repositories
             _context = context;
         }
 
+        public UserProfile GetByFirebaseUserId(string firebaseUserId)
+        {
+            return _context.UserProfile
+                .Include(up => up.UserType)
+                .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
+        }
+        public List<UserProfile> GetAll()
+        {
+            return _context.UserProfile.ToList();
+        }
+
         public UserProfile GetById(int id)
         {
             return _context.UserProfile.FirstOrDefault(uP=> uP.Id == id);
         }
 
-        public List<UserProfile> GetAll()
-        {
-            return _context.UserProfile.ToList();
-        }
 
         public void Add(UserProfile userPro)
         {
