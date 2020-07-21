@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Gifter.Data;
 using Gifter.Models;
 using Gifter.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gifter.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
@@ -20,16 +22,16 @@ namespace Gifter.Controllers
             _commentRepository = new CommentRepository(context);
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult Get(int id)
-        //{
-        //    var comment = _commentRepository.GetById(id);
-        //    if (comment == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(comment);
-        //}
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var comment = _commentRepository.GetById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(comment);
+        }
 
         [HttpGet("getbypost/{id}")]
         public IActionResult GetByPost(int id)

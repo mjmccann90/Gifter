@@ -1,14 +1,17 @@
-﻿using Gifter.Data;
-using Gifter.Models;
-using Gifter.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gifter.Data;
+using Gifter.Models;
+using Gifter.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gifter.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -40,7 +43,7 @@ namespace Gifter.Controllers
         public IActionResult Post(UserProfile userProfile)
         {
             _userProfileRepository.Add(userProfile);
-            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile); ;
+            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
         }
         
 
