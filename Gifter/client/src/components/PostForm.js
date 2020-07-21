@@ -1,12 +1,18 @@
-import React, { useContext, useRef } from "react"
-import { useHistory} from "react-router-dom"
+import React, { useContext, useRef, useEffect } from "react"
 import { PostContext } from "../providers/PostProvider"
-import { Form } from "reactstrap"
+import { UserProfileContext } from "../providers/UserProfileProvider"
+import { form } from "reactstrap"
+import { useHistory } from "react-router-dom";
 
 
 export default props => {
     const { addPost } = useContext(PostContext)
+    const {userProfiles, getAllUserProfiles} = useContext(UserProfileContext)
     const history = useHistory();
+
+    useEffect(() => {
+        getAllUserProfiles();
+    },[]);
 
     const title = useRef("title")
     const image = useRef("image")
@@ -18,13 +24,18 @@ export default props => {
         const newPostObject = {
             title: title.current.value,
             imageUrl: image.current.value,
-            dateCreated: new Date(),
-            userProfileId: parseInt(userId.current.value),
-            caption: caption.current.value
+            caption: caption.current.value,
+            userProfileId: userProfileId
         }
         console.log(newPostObject)
-       return addPost(newPostObject)
-    }
+
+
+        addPost(newPostObject)
+            .then(props.toggler)
+            .then((p)=> {
+                history.push("/")
+            });
+    };
 
     return (
         <form className="postForm" ref={form}>
@@ -59,16 +70,21 @@ export default props => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="userProfileId">UserId: </label>
-                    <input
-                        type="integer"
-                        id="userProfileId"
-                        ref={userId}
-                        required
-                        autoFocus
+                    <label htmlFor="userProfile">Assign to User: </label>
+                    <select
+                        defaultValue=""
+                        name="userProfile"
+                        ref={userProfile}
+                        id="userProfile"
                         className="form-control"
-                        placeholder="User id"
-                    />
+                    >
+                        <option value="0">Select a user</option>
+                        {userProfiles.map(e => (
+                            <option key={e.id} value={e.id}>
+                                {e.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </fieldset>
             <fieldset>
@@ -90,7 +106,6 @@ export default props => {
                     evt => {
                         evt.preventDefault() // Prevent browser from submitting the form
                         constructNewPost()
-                        .then(() => history.push("/"))
                     }
                 }
                 className="btn btn-primary">
